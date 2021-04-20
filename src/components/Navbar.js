@@ -1,21 +1,6 @@
-/*!
-
-=========================================================
-* BLK Design System PRO React - v1.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/blk-design-system-pro-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from 'react'
 // reactstrap components
+import identicon from 'identicon.js'
 import {
   Button,
   UncontrolledCollapse,
@@ -27,13 +12,15 @@ import {
   Navbar,
   NavItem,
   Nav,
+  NavbarText,
   Container,
   Row,
   Col,
   UncontrolledTooltip,
 } from 'reactstrap'
+import Identicon from 'identicon.js'
 
-export default function ColorNavbar() {
+export default function ColorNavbar(props) {
   const [navbarColor, setNavbarColor] = React.useState('navbar-transparent')
   React.useEffect(() => {
     window.addEventListener('scroll', changeNavbarColor)
@@ -62,9 +49,6 @@ export default function ColorNavbar() {
             <NavbarBrand to='/index' id='tooltip6619950104'>
               <span>BCT•</span> Blue Collar Token
             </NavbarBrand>
-            <UncontrolledTooltip delay={0} target='tooltip6619950104'>
-              Designed and Coded by Creative Tim
-            </UncontrolledTooltip>
             <button className='navbar-toggler' id='navigation'>
               <span className='navbar-toggler-bar bar1' />
               <span className='navbar-toggler-bar bar2' />
@@ -76,7 +60,7 @@ export default function ColorNavbar() {
               <Row>
                 <Col className='collapse-brand' xs='6'>
                   <a href='#pablo' onClick={(e) => e.preventDefault()}>
-                    BLK• <span>PRO React</span>
+                    BCT• <span>Token Swap</span>
                   </a>
                 </Col>
                 <Col className='collapse-close text-right' xs='6'>
@@ -90,7 +74,7 @@ export default function ColorNavbar() {
               <UncontrolledDropdown nav>
                 <DropdownToggle caret color='default' nav>
                   <i className='fa fa-cogs d-lg-none d-xl-none' />
-                  Getting started
+                  Blue Collar Projects
                 </DropdownToggle>
                 <DropdownMenu className='dropdown-with-icons'>
                   <DropdownItem to='/index'>
@@ -110,54 +94,7 @@ export default function ColorNavbar() {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-              <UncontrolledDropdown nav>
-                <DropdownToggle caret color='default' nav>
-                  <i aria-hidden={true} className='tim-icons icon-paper' />
-                  <p>Sections</p>
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem to='/sections#headers'>
-                    <i className='tim-icons icon-app' />
-                    Headers
-                  </DropdownItem>
-                  <DropdownItem to='/sections#features'>
-                    <i className='tim-icons icon-settings' />
-                    Features
-                  </DropdownItem>
-                  <DropdownItem to='/sections#blogs'>
-                    <i className='tim-icons icon-align-left-2' />
-                    Blogs
-                  </DropdownItem>
-                  <DropdownItem to='/sections#teams'>
-                    <i className='tim-icons icon-user-run' />
-                    Teams
-                  </DropdownItem>
-                  <DropdownItem to='/sections#projects'>
-                    <i className='tim-icons icon-paper' />
-                    Projects
-                  </DropdownItem>
-                  <DropdownItem to='/sections#pricing'>
-                    <i className='tim-icons icon-money-coins' />
-                    Pricing
-                  </DropdownItem>
-                  <DropdownItem to='/sections#testimonials'>
-                    <i className='tim-icons icon-chat-33' />
-                    Testimonials
-                  </DropdownItem>
-                  <DropdownItem to='/sections#contactus'>
-                    <i className='tim-icons icon-mobile' />
-                    Contact Us
-                  </DropdownItem>
-                  <DropdownItem to='/sections#tables'>
-                    <i className='tim-icons icon-chart-bar-32' />
-                    Tables
-                  </DropdownItem>
-                  <DropdownItem to='/sections#accordion'>
-                    <i className='tim-icons icon-paper' />
-                    Accordion
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
+
               <UncontrolledDropdown nav>
                 <DropdownToggle caret color='default' nav>
                   <i
@@ -259,17 +196,23 @@ export default function ColorNavbar() {
                   </UncontrolledDropdown>
                 </DropdownMenu>
               </UncontrolledDropdown>
-              <NavItem>
-                <Button
-                  className='nav-link'
-                  color='default'
-                  href='https://www.creative-tim.com/product/blk-design-system-pro-react?reaf=blkdspr-pages-navbar'
-                  size='sm'
-                  target='_blank'
-                >
-                  <p>Buy Now</p>
-                </Button>
-              </NavItem>
+              <NavbarText>
+                <span className='text-warning'>Acct:</span> {props.account}
+              </NavbarText>
+              {props.account ? (
+                <img
+                  className='ml-2 my-auto'
+                  width='30'
+                  height='30'
+                  src={`data:image/png;base64,${new Identicon(
+                    props.account,
+                    30
+                  ).toString()}`}
+                  alt='identicon image'
+                />
+              ) : (
+                <span></span>
+              )}
             </Nav>
           </UncontrolledCollapse>
         </Container>
