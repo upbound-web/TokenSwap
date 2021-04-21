@@ -18,17 +18,19 @@ import React from 'react'
 
 // reactstrap components
 import { Button, Input, Container, Row, Col } from 'reactstrap'
+import ethLogo from '../assets/img/eth-logo.png'
+import tokenLogo from '../assets/img/token-logo.png'
 
 import bg from '../assets/img/bg31.jpg'
 
 // core components
 
-export default function Main() {
+export default function Main(props) {
   return (
     <>
       <Container>
         <Row className='align-items-center text-left full'>
-          <Row>
+          <Row className='w-100'>
             <Col lg='12 text-center'>
               <h1 className='title'>
                 Swap Currency <br />
@@ -36,34 +38,70 @@ export default function Main() {
               </h1>
             </Col>
             <Col
-              className='ml-auto mr-auto bg-white rounded'
+              className='ml-auto mr-auto bg-white p-5 rounded'
               lg='7'
               md='8'
               xs='12'
             >
-              <h1 className='title'>
-                Swap Currency <br />
-                <strong className='text-warning'>Blue Collar Token</strong>
-              </h1>
-              <p className='description'>
-                We aim high at being focused on building relationships with our
-                clients and community. Using our creative gifts drives this
-                foundation.
-              </p>
-              <Row className='row-input'>
-                <Col className='mt-1' md='8' xs='6'>
-                  <Input
-                    aria-label='Your email'
-                    id='signupSrEmail'
-                    name='email'
-                    placeholder='Your email'
-                    type='email'
+              <form
+                className='mb-3'
+                onSubmit={(event) => {
+                  event.preventDefault()
+                }}
+              >
+                <Row className='d-flex justify-content-between'>
+                  <label className='text-warning h4 m-3'>Input</label>
+                  <span className='text-muted h4 m-3'>Balance: 97</span>
+                </Row>
+                <div className='input-group mb-4'>
+                  <input
+                    type='text'
+                    onChange={(event) => {}}
+                    ref={(input) => {}}
+                    className='form-control text-muted form-control-lg'
+                    placeholder='0'
+                    required
                   />
-                </Col>
-                <Col md='4' xs='6'>
-                  <Button color='warning'>Get Started</Button>
-                </Col>
-              </Row>
+                  <div className='input-group-append'>
+                    <div className='input-group-text text-warning'>
+                      <img src={ethLogo} height='26' alt='' />
+                      &nbsp;&nbsp;&nbsp; ETH
+                    </div>
+                  </div>
+                </div>
+                <Row className='d-flex justify-content-between'>
+                  <label className='text-warning h4 m-3'>Output</label>
+                  <span className='text-muted h4 m-3'>Balance: 0</span>
+                </Row>
+                <div className='input-group mb-4'>
+                  <input
+                    type='text'
+                    onChange={(event) => {}}
+                    ref={(input) => {}}
+                    className='form-control form-control-lg'
+                    placeholder='0'
+                    disabled
+                  />
+                  <div className='input-group-append'>
+                    <div className='input-group-text text-warning'>
+                      <img
+                        className='pl-1'
+                        src={tokenLogo}
+                        height='26'
+                        alt=''
+                      />
+                      &nbsp;&nbsp;&nbsp; BCT
+                    </div>
+                  </div>
+                </div>
+                <div className='d-flex justify-content-between'>
+                  <div>Exchange Rate</div>
+                  <div>1 ETH = 100 BCT</div>
+                </div>
+                <button className='btn btn-warning btn-block btn-lg'>
+                  SWAP
+                </button>
+              </form>
             </Col>
           </Row>
         </Row>
