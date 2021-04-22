@@ -18,7 +18,7 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
 
-    const ethBalance = await web3.eth.getBalance(this.state.account)
+    let ethBalance = await web3.eth.getBalance(this.state.account)
     this.setState({ ethBalance })
 
     //Load Token
@@ -55,6 +55,31 @@ class App extends Component {
     return false
   }
 
+  buyTokens = (etherAmount) => {
+    this.setState({ loading: true })
+    this.state.ethSwap.methods
+      .buyTokens()
+      .send({ value: etherAmount, from: this.state.account })
+      .on('transactionHash', (hash) => {
+        this.setState({ loading: false })
+      })
+  }
+
+  sellTokens = (tokenAmount) => {
+    this.setState({ loading: true })
+    this.state.token.methods
+      .approve(this.state.ethSwap.options.address, tokenAmount)
+      .send({ from: this.state.account })
+      .on('transactionHash', (hash) => {
+        this.state.ethSwap.methods
+          .sellTokens(tokenAmount)
+          .send({ from: this.state.account })
+          .on('transactionHash', (hash) => {
+            this.setState({ loading: false })
+          })
+      })
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -76,7 +101,14 @@ class App extends Component {
         </p>
       )
     } else {
-      content = <Main />
+      content = (
+        <Main
+          ethBalance={this.state.ethBalance}
+          tokenBalance={this.state.tokenBalance}
+          buyTokens={this.buyTokens}
+          sellTokens={this.sellTokens}
+        />
+      )
     }
     return (
       <div>

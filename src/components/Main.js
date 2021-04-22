@@ -16,6 +16,9 @@
 */
 import React, { Component } from 'react'
 
+import BuyForm from './BuyForm'
+import SellForm from './SellForm'
+
 // reactstrap components
 import { Button, Input, Container, Row, Col } from 'reactstrap'
 import ethLogo from '../assets/img/eth-logo.png'
@@ -29,10 +32,28 @@ class Main extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      output: '0',
+      currentForm: 'buy',
     }
   }
   render() {
+    let content
+    if (this.state.currentForm === 'buy') {
+      content = (
+        <BuyForm
+          ethBalance={this.props.ethBalance}
+          tokenBalance={this.props.tokenBalance}
+          buyTokens={this.props.buyTokens}
+        />
+      )
+    } else {
+      content = (
+        <SellForm
+          ethBalance={this.props.ethBalance}
+          tokenBalance={this.props.tokenBalance}
+          sellTokens={this.props.sellTokens}
+        />
+      )
+    }
     return (
       <>
         <Container>
@@ -43,6 +64,25 @@ class Main extends Component {
                   Swap Currency <br />
                   <strong className='text-warning'>Blue Collar Token</strong>
                 </h1>
+                <div className='d-flex justify-content-between mb-3'>
+                  <Button
+                    light
+                    onClick={(event) => {
+                      this.setState({ currentForm: 'buy' })
+                    }}
+                  >
+                    BUY
+                  </Button>
+                  <span className='text-muted'>&lt; &nbsp; &gt;</span>
+                  <Button
+                    light
+                    onClick={(event) => {
+                      this.setState({ currentForm: 'sell' })
+                    }}
+                  >
+                    SELL
+                  </Button>
+                </div>
               </Col>
               <Col
                 className='ml-auto mr-auto bg-white p-5 rounded'
@@ -50,85 +90,7 @@ class Main extends Component {
                 md='8'
                 xs='12'
               >
-                <form
-                  className='mb-3'
-                  onSubmit={(event) => {
-                    event.preventDefault()
-                  }}
-                >
-                  <Row className='d-flex justify-content-between'>
-                    <label className='text-warning h4 m-3'>Input</label>
-                    <span className='text-muted h4 m-3'>
-                      Balance:{' '}
-                      {window.web3.utils.fromWei(
-                        this.props.ethBalance,
-                        'Ether'
-                      )}
-                    </span>
-                  </Row>
-                  <div className='input-group mb-4'>
-                    <input
-                      type='text'
-                      onChange={(event) => {
-                        const etherAmount = this.input.value.toString()
-                        this.setState({
-                          output: etherAmount * 100,
-                        })
-                        console.log(this.state.output)
-                      }}
-                      ref={(input) => {
-                        this.input = input
-                      }}
-                      className='form-control text-muted form-control-lg'
-                      placeholder='0'
-                      required
-                    />
-                    <div className='input-group-append'>
-                      <div className='input-group-text text-warning'>
-                        <img src={ethLogo} height='26' alt='' />
-                        &nbsp;&nbsp;&nbsp; ETH
-                      </div>
-                    </div>
-                  </div>
-                  <Row className='d-flex justify-content-between'>
-                    <label className='text-warning h4 m-3'>Output</label>
-                    <span className='text-muted h4 m-3'>
-                      Balance:{' '}
-                      {window.web3.utils.fromWei(
-                        this.props.tokenBalance,
-                        'Ether'
-                      )}
-                    </span>
-                  </Row>
-                  <div className='input-group mb-4'>
-                    <input
-                      type='text'
-                      onChange={(event) => {}}
-                      ref={(input) => {}}
-                      className='form-control form-control-lg'
-                      placeholder='0'
-                      disabled
-                    />
-                    <div className='input-group-append'>
-                      <div className='input-group-text text-warning'>
-                        <img
-                          className='pl-1'
-                          src={tokenLogo}
-                          height='26'
-                          alt=''
-                        />
-                        &nbsp;&nbsp;&nbsp; BCT
-                      </div>
-                    </div>
-                  </div>
-                  <div className='d-flex justify-content-between'>
-                    <div>Exchange Rate</div>
-                    <div>1 ETH = 100 BCT</div>
-                  </div>
-                  <button className='btn btn-warning btn-block btn-lg'>
-                    SWAP
-                  </button>
-                </form>
+                {content}
               </Col>
             </Row>
           </Row>
